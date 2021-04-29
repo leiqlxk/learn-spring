@@ -12,8 +12,6 @@
     <packaging>war</packaging>
 
     <properties>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
         <mysql.version>8.0.24</mysql.version>
     </properties>
 
@@ -43,11 +41,17 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
-        <!--   jetty依赖  -->
+        <!-- 应用监控依赖 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-jetty</artifactId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
+
+        <!--   jetty依赖  -->
+        <!--<dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jetty</artifactId>
+        </dependency>-->
 
         <!--  jdbc启动器 -->
         <dependency>

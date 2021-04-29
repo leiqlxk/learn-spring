@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.WebApplicationInitializer;
 
 import javax.sql.DataSource;
 
@@ -26,7 +27,7 @@ import javax.sql.DataSource;
 @SpringBootApplication
 // 启用注解事务管理
 @EnableTransactionManagement
-public class Application extends SpringBootServletInitializer {
+public class Application extends SpringBootServletInitializer implements WebApplicationInitializer {
 
     // 自定义事务管理器
     /*@Bean
