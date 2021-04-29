@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
+    <!-- Spring配置文件配置剧本实例的演示，配置后通过new XmlBeanFactory("moAttck.xml")等方式即可启动容器，
+      容器启动时，spring根据配置文件的描述信息，自动实例化Bean并完成依赖关系的装配  -->
+    <!-- 实现类实例化  -->
+    <bean id="geli" class="org.lql.ioc.LiuDeHua"/>
+    <!-- 通过geli-ref建立依赖关系  -->
+    <bean id="moAttack" class="org.lql.ioc.MoAttck"
+          p:geli-ref="geli"/>
+</beans>
