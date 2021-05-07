@@ -1,5 +1,7 @@
 package org.lql.attr;
 
+import java.util.*;
+
 /**
  * Title: Boss <br>
  * ProjectName: learn-spring <br>
@@ -12,6 +14,42 @@ package org.lql.attr;
 public class Boss {
 
     private Car car = new Car();
+    private List favorites = new ArrayList();
+    private Map jobs = new HashMap();
+    private Properties mails = new Properties();
+    private Map<String, Integer> jobTime = new HashMap<>();
+
+    public Map<String, Integer> getJobTime() {
+        return jobTime;
+    }
+
+    public void setJobTime(Map<String, Integer> jobTime) {
+        this.jobTime = jobTime;
+    }
+
+    public Properties getMails() {
+        return mails;
+    }
+
+    public void setMails(Properties mails) {
+        this.mails = mails;
+    }
+
+    public Map getJobs() {
+        return jobs;
+    }
+
+    public void setJobs(Map jobs) {
+        this.jobs = jobs;
+    }
+
+    public List getFavorites() {
+        return favorites;
+    }
+
+    public void setFavorites(List favorites) {
+        this.favorites = favorites;
+    }
 
     public Car getCar() {
         return car;

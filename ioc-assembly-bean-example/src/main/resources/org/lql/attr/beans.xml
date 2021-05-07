@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:p="http://www.springframework.org/schema/p"
 
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
+        http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util-4.0.xsd">
 
     <!--  注入字面值参数：当属性包含xml中的特殊符号时我们使用一个特殊的xml标签来包住他(<![CDATA[]]>)，其作用是让xml解析器将标签中的字符串当作普通的文本对待，以防止特殊字符串对xml格式造成破坏，
       xml中包含五个特殊符号：&、<、>、"、'。注意spring不会对value中字符串前后的空格进行处理-->
@@ -40,4 +44,105 @@
     <bean id="boss2" class="org.lql.attr.Boss">
         <property name="car.brand" value="领克01"/>
     </bean>
+
+    <!--  List属性注入  -->
+    <bean id="boss3" class="org.lql.attr.Boss">
+        <property name="favorites">
+            <list>
+                <value>看报</value>
+                <value>赛车</value>
+                <value>高尔夫</value>
+                <ref bean="car"/>
+            </list>
+        </property>
+    </bean>
+
+    <!--  Set属性注入  -->
+    <!--<bean id="boss3" class="org.lql.attr.Boss">
+        <property name="favorites">
+            <set>
+                <value>看报</value>
+                <value>赛车</value>
+                <value>高尔夫</value>
+                <ref bean="car"/>
+            </set>
+        </property>
+    </bean>-->
+
+    <!--  map属性注入  -->
+    <bean id="boss4" class="org.lql.attr.Boss">
+        <property name="jobs">
+            <map>
+                <entry>
+                    <key><value>AM</value></key>
+                    <value>会见客户</value>
+                </entry>
+                <entry>
+                    <key><value>PM</value></key>
+                    <value>公司内部会议</value>
+                </entry>
+            </map>
+        </property>
+    </bean>
+
+    <!--  properties属性注入  -->
+    <bean id="boss5" class="org.lql.attr.Boss">
+        <property name="mails">
+            <props>
+                <prop key="jobMail">john-office@smart.com</prop>
+                <prop key="lifeMail">john-life@smart.com</prop>
+            </props>
+        </property>
+    </bean>
+
+    <!--  强类型集合属性注入  -->
+    <bean id="boss6" class="org.lql.attr.Boss">
+        <property name="jobTime">
+            <map>
+                <entry>
+                    <key><value>会见客户</value></key>
+                    <!--  会自动转换   -->
+                    <value>124</value>
+                </entry>
+            </map>
+        </property>
+    </bean>
+
+    <!--  集合合并  -->
+    <!--  父bean  -->
+    <bean id="parentBoss" abstract="true" class="org.lql.attr.Boss">
+        <property name="favorites">
+            <list>
+                <value>看报</value>
+                <value>赛车</value>
+                <value>高尔夫</value>
+                <ref bean="car"/>
+            </list>
+        </property>
+    </bean>
+    <!--  指定父bean  -->
+    <bean id="childBoss" parent="parentBoss">
+        <property name="favorites">
+            <!--  和父bean中的同名集合属性合并   -->
+            <list merge="true">
+                <value>爬山</value>
+                <value>游泳</value>
+            </list>
+        </property>
+    </bean>
+
+    <!--  通过util命名空间配置集合类型的bean  -->
+    <util:list id="favorites" list-class="java.util.ArrayList">
+        <value>看报</value>
+        <value>赛车</value>
+        <value>高尔夫</value>
+    </util:list>
+
+    <!--  使用p命名空间简化配置  -->
+    <bean id="car3" class="org.lql.attr.Car"
+    p:brand="红旗&amp;CA72"
+    p:maxSpeed="200"
+    p:price="20000"/>
+    <bean id="boss6" class="org.lql.attr.Boss"
+          p:car-ref="car"/>
 </beans>
