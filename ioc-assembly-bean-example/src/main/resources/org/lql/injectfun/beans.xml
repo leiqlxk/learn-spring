@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
+
+    <!--  无状态Bean的作用域一般可以配置为singleton，如果我们往singleton的Boss中注入prototype的Car，并希望每次调用boss Bean的getCar方法时都能返回一个新的
+      car Bean，使用传统的注入方式将无法实现，我们可以通过实现BeanFactoryAware接口来达到木丁，但这会与spring框架绑定在一起，并不推荐-->
+    <!--  lookup方法注入:通过lookup-method元素标签为MagicBoss的getCar提供动态实现，返回prototype类型的car Bean，Spring会在运行期为MagicBoss接口提供动态
+    实现，使用方法注入时要使用CGLib，所以要提供CGLib类包，否则无法使用  -->
+    <!--  prototype类型的Bean  -->
+    <bean id="car" class="org.lql.injectfun.Car"
+          p:brand="红旗CA72" p:price="20000" scope="prototype"/>
+    <!--  实施方法注入  -->
+    <bean id="magicBoss" class="org.lql.injectfun.MagicBoss">
+        <lookup-method name="getCar" bean="car"/>
+    </bean>
+
+
+    <!--  方法替换：用于替换他人的Bean必须实现MethodReplacer接口，Spring将利用该接口的方法去替换目标Bean的方法  -->
+    <bean id="boss1" class="org.lql.injectfun.Boss1">
+        <replaced-method name="getCar" replacer="boss2"/>
+    </bean>
+
+    <bean id="boss2" class="org.lql.injectfun.Boss2"/>
+</beans>
