@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframwork.org/beans/spring-beans-4.0.xsd">
+
+    <!--  以下两个bean大部分内容重复，仅有颜色不同而已，则我们可以是用<bean>的继承来实现配置继承消除重复  -->
+    <bean id="car1" class="org.lql.tagdepend.Car"
+          p:brand="红旗CA72" p:price="20000" p:color="黑色"/>
+    <bean id="car2" class="org.lql.tagdepend.Car"
+          p:brand="红旗CA72" p:price="20000" p:color="红色"/>
+
+    <!--  继承  -->
+    <!--  定义一个抽象的bean  -->
+    <bean id="abstractCar" class="org.lql.tagdepend.Car"
+          p:brand="红旗CA72" p:price="20000" p:color="黑色" abstract="true"/>
+    <!--  继承于abstractCar  -->
+    <bean id="car3" parent="abstractCar" p:color="红色"/>
+    <bean id="car4" parent="abstractCar" p:color="黑色"/>
+
+    <!--  正常情况下一个bean依赖于另一个bean，我们可以使用ref来实现，但如缓存刷新例子，CacheManager依赖于SystemSettings，而SystemSettings的值由SysInit负责初始化，
+      逻辑上我们必须在SysInit加载并完成系统参数设置后再启动，以避免调用不到真实的系统参数，这种间接的依赖关系，我们通过depends-on来实现前置依赖效果，如果依赖有多个
+      Bean，则可以通过逗号、空格或分号的方式分隔 -->
+    <bean id="sysInit" class="org.lql.tagdepend.SysInit"/>
+    <bean id="manager" class="org.lql.tagdepend.CacheManager" depends-on="sysInit"/>
+
+    <!--  假设一个<bean>要引用另一个<bean>的id属性值，则可以直接使用以下配置，此形式spring并不会在容器启动时堆属性配置值进行特殊检查，即使编写错误也要等到具体调用时才会
+    发现，推荐使用第二种方式  -->
+    <bean id="boss" class="org.lql.tagdepend.Boss"
+          p:carId="car" scope="prototype"/>
+
+    <bean id="boss1" class="org.lql.tagdepend.Boss">
+        <property name="carId">
+            <idref bean="car1"/>
+        </property>
+    </bean>
+</beans>
