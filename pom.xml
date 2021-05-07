@@ -11,6 +11,7 @@
         <module>login-example</module>
         <module>spring-boot-example</module>
         <module>ioc-base-example</module>
+        <module>ioc-assembly-bean-example</module>
     </modules>
 
 

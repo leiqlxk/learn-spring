@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/spring-beans-4.0.xsd">
+
+    <!--  属性注入，通过set方法，spring会验证勒种是否有该set方法并不会对是否有该属性进行验证（没有要求一定要有该成员变量）  -->
+    <bean id="car" class="org.lql.ditype.Car">
+        <property name="brand"><value>红旗CA72</value></property>
+        <property name="price"><value>20000.00</value></property>
+        <property name="maxSpeed"><value>200</value></property>
+    </bean>
+
+    <!--  构造函数注入:按类型匹配入参，与顺序无关，当两个入参类型一样的时候无法区分  -->
+    <bean id="car1" class="org.lql.ditype.Car">
+        <constructor-arg type="java.lang.String">
+            <value>红旗CA72</value>
+        </constructor-arg>
+        <constructor-arg type="double">
+            <value>20000.00</value>
+        </constructor-arg>
+    </bean>
+
+    <!--  构造函数注入:按索引匹配入参，通过显示指定参数的索引能够消除按类型匹配的不确定性，  -->
+    <bean id="car2" class="org.lql.ditype.Car">
+        <constructor-arg index="0" value="红旗CA72"/>
+        <constructor-arg index="1" value="中国一汽"/>
+        <constructor-arg index="2" value="20000"/>
+    </bean>
+
+    <!--  构造函数注入:联合使用类型和索引匹配入参，即指定顺序也指定入参类型，  -->
+    <bean id="car3" class="org.lql.ditype.Car">
+        <constructor-arg index="0" type="java.lang.String" value="红旗CA72"/>
+        <constructor-arg index="1" type="java.lang.String" value="中国一汽"/>
+        <constructor-arg index="2" type="int" value="200"/>
+    </bean>
+
+    <bean id="office" class="org.lql.ditype.Office"/>
+    <!--  自身类型反射匹配入参，因为car，office和name入参的类型都是可辨别的，所以无须在构造函数注入的配置时指定类型和索引，可采用简易配置  -->
+    <bean id="boss" class="org.lql.ditype.Boss">
+        <constructor-arg value="John"/>
+        <constructor-arg ref="car4"/>
+        <constructor-arg ref="office"/>
+    </bean>
+
+    <!--  spring容器能对构造函数配置的Bean进行实例化的前提条件是构造函数入参引用的对象必须已经准备就绪，如果两个bean都采用构造函数注入，而且都通过构造函数入参引用对方，
+    就会发生类似于线程死锁的循环依赖问题，这种情况只要修改为属性注入就可以解决  -->
+    <bean id="car4" class="org.lql.ditype.Car">
+        <constructor-arg value="循环依赖"/>
+        <constructor-arg ref="boss"/>
+    </bean>
+
+    <!--  工厂类bean  -->
+    <bean id="carFactory" class="org.lql.ditype.CarFactory"/>
+
+    <!--  非静态工厂方法:factory-bean指定上面的工厂类bean,由于工厂方法非静态所以必须先定义一个工厂类;factory-method指定工厂类Bean创建该bean的工厂方法;  -->
+    <bean id="car5" factory-bean="carFactory" factory-method="createHongQiCar"/>
+
+    <!--  静态工厂方法  -->
+    <bean id="car6" class="org.lql.ditype.CarFactory" factory-method="createCar"/>
+</beans>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframwork.org/schema/beans/spring-beans-4.0.xsd">
+    <!--  id在同一容器中必须唯一，且有命名规范，以字母开头，后续可以是字母、数字、连字符、下划线、句号、冒号等完整结束的符号，尽量使用id来保证唯一性避免使用name  -->
+    <bean id="car" class="org.lql.simple.Car"/>
+    <bean id="boss" class="org.lql.simple.Boss"/>
+
+    <!--  name属性在字符上没有限制且可以出现相同name的bean使用getBean时返回最后定义的那个bean，和id一样可以指定多个名字，名字之间用逗号、分号或者空格进行分隔  -->
+    <bean name="#car,123,$car" class="org.lql.simple.Car"/>
+
+    <!--  如果id和name都没有指定，将默认使用全限定名作为bean的名称,如果存在多个匿名的<bean>则第一个通过getBean("org.lql.simple.Car"),第二个为getBean("org.lql.simple.Car#1")以此类推  -->
+    <bean class="org.lql.simple.Car"/>
+    <bean class="org.lql.simple.Car"/>
+    <bean class="org.lql.simple.Car"/>
+</beans>
