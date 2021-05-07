@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
+
+    <!--  注入字面值参数：当属性包含xml中的特殊符号时我们使用一个特殊的xml标签来包住他(<![CDATA[]]>)，其作用是让xml解析器将标签中的字符串当作普通的文本对待，以防止特殊字符串对xml格式造成破坏，
+      xml中包含五个特殊符号：&、<、>、"、'。注意spring不会对value中字符串前后的空格进行处理-->
+    <bean id="car" class="org.lql.attr.Car">
+        <property name="maxSpeed"><value>200</value></property>
+        <property name="brand"><value><![CDATA[红旗&CA72]]></value></property>
+    </bean>
+
+    <!--  引用其他类型： ref可以通过以下三个属性引用容器中的其他bean：bean（通过该属性可以引用同一容器或父容器中的bean）、local（通过该属性只能引用同一配置文件中定义的bean）、
+    parent（引用父容器中的bean）  -->
+    <bean id="boss" class="org.lql.attr.Boss">
+        <property name="car" ref="car"/>
+        <!--<property name="car">
+            <ref bean="car"></ref>
+        </property>-->
+    </bean>
+
+    <!--  内部bean:当car bean只被boss bean引用，而不被容器中任何其他的bean引用，则可以将car以内部bean的方式注入boss中  -->
+    <bean id="boss1" class="org.lql.attr.Boss">
+        <property name="car">
+            <bean class="org.lql.attr.Car">
+                <property name="price" value="20000"/>
+                <property name="maxSpeed" value="200"/>
+            </bean>
+        </property>
+    </bean>
+
+    <!--  当需要注入null值时不能使用<value></value>这样会解析为空字符串，必须使用<null/>才会解析为null值  -->
+    <bean id="car1" class="org.lql.attr.Car">
+        <property name="brand"><null/></property>
+    </bean>
+
+    <!--  级联属性:按照此配置spring将调用Boss.getCar().setBrand()方法进行属性注入。此时必须为Boss的car属性声明一个初始化对象  -->
+    <bean id="boss2" class="org.lql.attr.Boss">
+        <property name="car.brand" value="领克01"/>
+    </bean>
+</beans>

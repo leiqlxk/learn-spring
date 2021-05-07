@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
+
+    <!--  该bean和父容器的car bean具有相同id  -->
+    <bean id="car" class="org.lql.attr.Car">
+        <property name="brand" value="领克01"/>
+        <property name="maxSpeed" value="240"/>
+        <property name="price" value="10000"/>
+    </bean>
+
+    <!--  引用父容器的car  -->
+    <bean id="boss" class="org.lql.attr.Boss">
+        <property name="car">
+            <ref parent="car"/>
+        </property>
+    </bean>
+</beans>
