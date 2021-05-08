@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
+
+    <!--  作用域默认为singleton（单例）,spring容器在启动时会自动实例化所有singleton的Bean并缓存，可以及早发现一些潜在的配置问题，同时在使用时也无需在实例化，如果不需要启动时实例化
+      可以使用lazy-init属性来取消 -->
+    <bean id="car" class="org.lql.scope.Car" scope="singleton"/>
+    <bean id="boss1" class="org.lql.scope.Boss" p:car-ref="car"/>
+    <bean id="boss2" class="org.lql.scope.Boss" p:car-ref="car"/>
+    <bean id="boss3" class="org.lql.scope.Boss" p:car-ref="car"/>
+
+    <!--  prototype为非单例模式，每次使用时都重新实例化一个Bean  -->
+    <bean id="car1" class="org.lql.scope.Car" scope="prototype"/>
+    <bean id="boss4" class="org.lql.scope.Boss" p:car-ref="car1"/>
+    <bean id="boss5" class="org.lql.scope.Boss" p:car-ref="car1"/>
+    <bean id="boss6" class="org.lql.scope.Boss" p:car-ref="car1"/>
+
+    <!--  WebApplicationContext的request、session、globalSession三个作用域需要在web.xml中进行额外配置进行支持  -->
+    <bean id="car2" class="org.lql.scope.Car" scope="request"/>
+    <bean id="car3" class="org.lql.scope.Car" scope="session"/>
+    <!--  globalSession作用域仅在Portlet Web环境下使用，否则等同于session作用域  -->
+    <bean id="car4" class="org.lql.scope.Car" scope="globalSession"/>
+</beans>
