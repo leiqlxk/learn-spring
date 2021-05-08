@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
+
+    <!--  使用FactoryBean自定义实例化过程，当调用getBean("car")时，spring通过反射机制发现CarFactoryBean实现了FactoryBean接口，这时就会调用getObject方法获取实例，如果需要获取
+      CarFactoryBean本身的实例则要在getBean时显示的在beanName前面加上“&”前缀  -->
+    <bean id="car" class="org.lql.fb.CarFactoryBean" p:carInfo="红旗CA72,20000,200"/>
+</beans>

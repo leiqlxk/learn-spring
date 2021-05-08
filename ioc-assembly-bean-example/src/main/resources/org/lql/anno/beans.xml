@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+
+    <!--  扫描类包以应用注解定义的Bean,其中隐藏了use-default-filters=true，其代表了默认会扫描component、service、repository、controller注解  -->
+    <context:component-scan base-package="org.lql.anno"/>
+
+    <!--  如果仅希望扫描特定的类而非基包下的所有类可以使用resource-pattern属性进行过滤  -->
+    <context:component-scan base-package="org.lql" resource-pattern="anno/*.class"/>
+
+    <!--  使用resouce-pattern只能进行一个初略的过滤，可以使用<context:component-scan>的过滤子元素来实现更为精确的过滤，include和exclude可以有多个  -->
+    <!--  annotation： org.lql.XxxAnnotation,表示过滤所有标志了XxxAnnotation注解的类 -->
+    <!--  assignable： org.lql.XxxService,表示过滤所有继承或扩展XxxService的类 -->
+    <!--  aspectj： org.lql..*Service+,表示过滤所有类名以Service结束的类及继承或扩展它们的类 -->
+    <!--  regex： org\.lql\.anno\..*,表示过滤所有org.lql.anno类包下的类 -->
+    <!--  custom： org.lql.XxxTypeFileter,表示采用XxxTypeFileter代码方式实现过滤规则，该类必须实现org.springframework.core.type.TypeFilter接口 -->
+    <context:component-scan base-package="org.lql">
+        <context:include-filter type="regex" expression="org\.lql\.anno.*"/>
+        <context:exclude-filter type="aspectj" expression="org.lql..*Controller+"/>
+    </context:component-scan>
+</beans>
