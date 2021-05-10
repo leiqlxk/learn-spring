@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework/schema/beans/spring-beans-4.0.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+
+    <!--  1.通过PropertyPlaceHolderConfigurer导入properties文件  -->
+<!--    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer" p:location="classpath:org/lql/placeholder/jdbc.properties" p:fileEncoding="utf-8" />-->
+
+    <!--  2.使用context命名空间的配置引用属性文件  -->
+    <context:property-placeholder location="classpath:org/lql/placeholder/jdbc.properties" file-encoding="utf-8"/>
+
+    <!--  3.自定义一些额外的高级功能,如属性加密、使用数据库表来保存配置信息等，使用基于注解及基于java类的配置来引用属性  -->
+    <context:component-scan base-package="org.lql.placeholder"/>
+
+    <bean class="org.lql.placeholder.EncryptPropertyPlaceholderConfigurer" p:location="classpath:org/lql/placeholder/jdbc.properties" p:fileEncoding="utf-8"/>
+
+    <!--  通过属性名引用属性值  -->
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+          destroy-method="close"
+          p:driverClassName="${driverClassName}"
+          p:url="${url}"
+          p:username="${userName}"
+          p:password="${password}"/>
+</beans>

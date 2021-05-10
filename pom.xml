@@ -12,6 +12,7 @@
         <module>spring-boot-example</module>
         <module>ioc-base-example</module>
         <module>ioc-assembly-bean-example</module>
+        <module>ioc-advanced-topics-example</module>
     </modules>
 
 
