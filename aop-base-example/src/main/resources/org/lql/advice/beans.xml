@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
+
+    <bean id="greetBeforeAdvice" class="org.lql.advice.GreetingBeforeAdvice"/>
+    <bean id="greetAfterAdvice" class="org.lql.advice.GreetingAfterAdvice"/>
+    <bean id="greetInterceptor" class="org.lql.advice.GreetingInterceptor"/>
+
+    <bean id="target" class="org.lql.advice.NaiveWaiter"/>
+
+    <!--  配置前置增强代理  -->
+    <bean id="waiter" class="org.springframework.aop.framework.ProxyFactoryBean"
+          p:proxyInterfaces="org.lql.advice.Waiter"
+          p:target-ref="target"
+          p:interceptorNames="greetBeforeAdvice"/>
+
+    <!--  后置增强代理  -->
+    <bean id="afterWaiter" class="org.springframework.aop.framework.ProxyFactoryBean"
+          p:target-ref="target"
+          p:proxyInterfaces="org.lql.advice.Waiter"
+          p:interceptorNames="greetAfterAdvice"/>
+
+    <!--  混合前后增强  -->
+    <bean id="mixinWaiter" class="org.springframework.aop.framework.ProxyFactoryBean"
+          p:target-ref="target"
+          p:proxyInterfaces="org.lql.advice.Waiter"
+          p:interceptorNames="greetBeforeAdvice,greetAfterAdvice"/>
+
+    <!--  环绕增强  -->
+    <bean id="greetingIntercept" class="org.springframework.aop.framework.ProxyFactoryBean"
+          p:target-ref="target"
+          p:proxyInterfaces="org.lql.advice.Waiter"
+          p:interceptorNames="greetInterceptor"/>
+
+    <!--  异常抛出增强  -->
+    <bean id="transactionManager" class="org.lql.advice.TransactionManager"/>
+    <bean id="forumServiceTarget" class="org.lql.advice.ForumService"/>
+    <bean id="forumService" class="org.springframework.aop.framework.ProxyFactoryBean"
+          p:interceptorNames="transactionManager"
+          p:target-ref="forumServiceTarget"
+          p:proxyTargetClass="true"/>
+
+    <!--  引介增强  -->
+    <bean id="pmonitor" class="org.lql.advice.ControllablePerformanceMonitor"/>
+    <bean id="forumServiceTarget1" class="org.lql.proxy.ForumServiceImpl"/>
+    <!--  引用的是引介增强实现的接口，其次由于只能通过为目标类创建子类的方式生成引介增强，所以必须用cglib  -->
+    <bean id="forumServiceImpl" class="org.springframework.aop.framework.ProxyFactoryBean"
+          p:interfaces="org.lql.advice.Monitorable"
+          p:target-ref="forumServiceTarget1"
+          p:interceptorNames="pmonitor"
+          p:proxyTargetClass="true"/>
+
+</beans>

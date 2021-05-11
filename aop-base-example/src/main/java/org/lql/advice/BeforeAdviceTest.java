@@ -2,6 +2,8 @@ package org.lql.advice;
 
 import org.springframework.aop.BeforeAdvice;
 import org.springframework.aop.framework.ProxyFactory;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  * Title: BeforeAdviceTest <br>
@@ -37,5 +39,12 @@ public class BeforeAdviceTest {
         Waiter proxy = (Waiter) factory.getProxy();
         proxy.greetTo("John");
         proxy.serverTo("Tim");
+
+        // spring容器方式
+        String classPath = "org/lql/advice/beans.xml";
+        ApplicationContext ctx = new ClassPathXmlApplicationContext(classPath);
+
+        Waiter waiter1 = (Waiter) ctx.getBean("waiter");
+        waiter1.greetTo("John");
     }
 }
