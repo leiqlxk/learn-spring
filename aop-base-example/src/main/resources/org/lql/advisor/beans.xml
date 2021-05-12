@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
+
+    <bean id="waiterTarget" class="org.lql.advisor.Waiter"/>
+
+    <bean id="sellerTarget" class="org.lql.advisor.Seller"/>
+
+    <bean id="beforeAdvice" class="org.lql.advisor.BeforeAdvice"/>
+
+    <!--  向切面注入一个前置增强  -->
+    <bean id="greetingAdvisor" class="org.lql.advisor.GreetingAdvisor" p:advice-ref="beforeAdvice"/>
+
+    <!--  通过一个父<bean>定义公共配置信息  -->
+    <bean id="parent" abstract="true" class="org.springframework.aop.framework.ProxyFactoryBean"
+          p:interceptorNames="greetingAdvisor"
+          p:proxyTargetClass="true"/>
+
+    <!--  waiter代理  -->
+    <bean id="waiter" parent="parent" p:target-ref="waiterTarget"/>
+
+    <!--  seller代理  -->
+    <bean id="seller" parent="parent" p:target-ref="sellerTarget"/>
+
+    <!--  正则表达式匹配  -->
+    <bean id="regexpAdvisor" class="org.springframework.aop.support.RegexpMethodPointcutAdvisor"
+          p:advice-ref="beforeAdvice">
+        <!--  用正则表达式定义目标类全限定方法名的匹配模式串  -->
+        <property name="patterns">
+            <!--  匹配模式串  -->
+            <value>.*greet.*</value>
+        </property>
+    </bean>
+
+    <bean id="waiter1" class="org.springframework.aop.framework.ProxyFactoryBean"
+          p:interceptorNames="regexpAdvisor"
+          p:target-ref="waiterTarget"
+          p:proxyTargetClass="true"/>
+
+    <!--  流程切面  -->
+    <bean id="controlFlowPointcut" class="org.springframework.aop.support.ControlFlowPointcut">
+        <!--  指定流程切点的类  -->
+        <constructor-arg type="java.lang.Class" value="org.lql.advisor.WaiterDelegate"/>
+        <!--  指定流程切点的方法  -->
+        <constructor-arg type="java.lang.String" value="service"/>
+    </bean>
+
+    <bean id="controlFlowAdvisor" class="org.springframework.aop.support.DefaultPointcutAdvisor"
+          p:pointcut-ref="controlFlowPointcut"
+          p:advice-ref="beforeAdvice"/>
+
+    <bean id="waiter2" class="org.springframework.aop.framework.ProxyFactoryBean"
+          p:interceptorNames="controlFlowAdvisor"
+          p:target-ref="waiterTarget"
+          p:proxyTargetClass="true"/>
+
+    <!--  复合切面  -->
+    <bean id="gcp" class="org.lql.advisor.GreetingComposablePointcut"/>
+
+    <bean id="composableAdvisor" class="org.springframework.aop.support.DefaultPointcutAdvisor"
+          p:advice-ref="beforeAdvice"
+          p:pointcut="#{gcp.getIntersectionPointcut()}"/>
+
+    <bean id="waiter3" class="org.springframework.aop.framework.ProxyFactoryBean"
+          p:interceptorNames="composableAdvisor"
+          p:target-ref="waiter"
+          p:proxyTargetClass="true"/>
+
+    <!--  引介切面  -->
+    <bean id="introduceAdvisor" class="org.springframework.aop.support.DefaultIntroductionAdvisor">
+        <constructor-arg>
+            <bean class="org.lql.advice.ControllablePerformanceMonitor"/>
+        </constructor-arg>
+    </bean>
+
+    <bean id="forumServiceTarget" class="org.lql.proxy.ForumServiceImpl"/>
+
+    <bean id="forumService" class="org.springframework.aop.framework.ProxyFactoryBean"
+          p:interceptorNames="introduceAdvisor"
+          p:target-ref="forumServiceTarget"
+          p:proxyTargetClass="true"/>
+</beans>
