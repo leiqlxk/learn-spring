@@ -8,14 +8,9 @@
         http://www.springframework.org/schema/aop
         http://www.springframework.org/schema/aop/spring-aop-4.0.xsd">
 
-    <!-- 目标bean  -->
-    <bean id="target" class="org.lql.NaiveWaiter"/>
-
-    <!--  切面  -->
-    <bean class="org.lql.aspectj.example.PreGreetingAspect"/>
-
-    <!--  基于@Aspect切面的驱动器  -->
     <aop:aspectj-autoproxy/>
-    <!--  自动代理创建器，自动将@AspectJ注解切面织入目标Bean中  -->
-<!--    <bean class="org.springframework.aop.aspectj.annotation.AnnotationAwareAspectJAutoProxyCreator"/>-->
+
+    <bean id="waiter" class="org.lql.NaiveWaiter"/>
+
+    <bean class="org.lql.aspectj.basic.EnableSellerAspect"/>
 </beans>

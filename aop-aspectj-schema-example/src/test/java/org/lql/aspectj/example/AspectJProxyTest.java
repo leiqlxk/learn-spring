@@ -1,6 +1,6 @@
 package org.lql.aspectj.example;
 
-import org.lql.NavieWaiter;
+import org.lql.NaiveWaiter;
 import org.lql.Waiter;
 import org.springframework.aop.aspectj.annotation.AspectJProxyFactory;
 import org.testng.annotations.Test;
@@ -18,7 +18,7 @@ public class AspectJProxyTest {
 
     @Test
     public void proxy() {
-        Waiter target = new NavieWaiter();
+        Waiter target = new NaiveWaiter();
 
         AspectJProxyFactory aspectJProxyFactory = new AspectJProxyFactory();
         // 设置目标对象

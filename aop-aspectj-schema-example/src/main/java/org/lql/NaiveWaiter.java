@@ -11,7 +11,8 @@ import org.lql.anno.NeedTest;
  * @version: 1.0 <br>
  * @since: 2021/5/13 16:29 <br>
  */
-public class NavieWaiter implements Waiter {
+public class NaiveWaiter implements Waiter {
+
     public void greetTo(String clientName) {
         System.out.println("NaiveWaiter:greet to "+clientName+"...");
     }

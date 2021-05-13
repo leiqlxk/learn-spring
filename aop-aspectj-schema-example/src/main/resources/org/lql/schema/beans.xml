@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-4.0.xsd">
+
+    <bean id="naiveWaiter" class="org.lql.NaiveWaiter"/>
+
+    <bean id="naughtyWaiter" class="org.lql.NaughtyWaiter"/>
+
+    <bean id="seller" class="org.lql.SmartSeller" />
+
+    <!--  增强方法所在的bean  -->
+    <bean id="adviceMethods" class="org.lql.schema.AdviceMethods"/>
+
+    <bean id="testAdvice" class="org.lql.schema.TestBeforeAdvice"/>
+
+    <aop:config proxy-target-class="true">
+        <aop:advisor advice-ref="testAdvice"  pointcut="execution(* org..*.Waiter.greetTo(..))"/>
+        <!--   引用增强方法的bean     -->
+        <aop:aspect ref="adviceMethods">
+            <aop:before method="preGreeting"
+                        pointcut="target(org.lql.NaiveWaiter) and args(name)"
+                        arg-names="name" />
+            <aop:after-returning method="afterReturning"
+                                 pointcut="target(org.lql.SmartSeller)" returning="retVal" />
+            <aop:around method="aroundMethod"
+                        pointcut="execution(* serveTo(..)) and within(org.lql.Waiter)" />
+            <aop:after-throwing method="afterThrowingMethod"
+                                pointcut="target(org.lql.SmartSeller) and execution(* checkBill(..))"
+                                throwing="iae" />
+            <aop:after method="afterMethod"
+                       pointcut="execution(* com..*.Waiter.greetTo(..))" />
+            <aop:declare-parents
+                    implement-interface="org.lql.Seller"
+                    default-impl="org.lql.SmartSeller"
+                    types-matching="org.lql.Waiter+" />
+            <aop:before method="bindParams"
+                        pointcut="target(org.lql.NaiveWaiter) and args(name,num,..)"/>
+        </aop:aspect>
+    </aop:config>
+</beans>
