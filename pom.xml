@@ -15,6 +15,7 @@
         <module>ioc-advanced-topics-example</module>
         <module>aop-base-example</module>
         <module>aop-aspectj-schema-example</module>
+        <module>spring-spel-example</module>
     </modules>
 
 
