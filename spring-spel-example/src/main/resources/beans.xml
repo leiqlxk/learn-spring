@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
+
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-4.0.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util-4.0.xsd">
+
+    <context:component-scan base-package="org.lql.spel"/>
+
+    <!--  通过util命名空间导入properties文件属性，其使用方式为#{properties['password']}，这种写法比较容易出错  -->
+    <util:properties id="properties" location="classpath:jdbc.properties"/>
+    <!--  通过context命名空间提供简便写法——属性占位符，就可以在表达式中使用${属性}  -->
+    <context:property-placeholder properties-ref="properties"/>
+
+    <!--  可以获取任意一个在容器中的bean中的属性，属性应提供get方法  -->
+    <bean id="systemPropertyBean" class="org.lql.spel.SystemPropertyBean"
+          p:osName="#{systemProperties['os.name']}"
+          p:javaHome="#{systemProperties['java.home']}"
+          p:classPath="#{systemProperties['java.class.path']}"
+          p:javaVersion="#{systemProperties['java.version']}"/>
+</beans>
