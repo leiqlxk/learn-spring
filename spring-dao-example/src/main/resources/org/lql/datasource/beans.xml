@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
+
+    <!--  dbcp：BasicDataSource停供了close方法关闭数据源，所以必须设定destroy-method="close"属性，以便spring容器关闭时，数据源能够正常关闭  -->
+    <!--  事务属性：
+            defaultAutoCommit：默认值为true，连接池创建的连接的默认auto-commit状态
+            defaultReadOnly：驱动默认，连接池创建的连接的默认read-only状态。如果没有设置，则setReadOnly()方法将不会被调用
+            defaultTransactionIsolation：驱动默认，连接池创建的连接的默认TransactionIsolation状态，可选值包括：NONE、READ_COMMITTED、READ_UNCOMMITTED、REPEATABLE_READ、SERIALIZABLE
+            -->
+    <!--  数据库连接属性：
+            initialSize：默认值为0，初始化连接数量
+            maxActive：默认值为8，最大活动连接，连接池在同一时间能够分配的最大活动连接数量，设置为非正数为不限制
+            maxIdle：默认值为8，最大空闲连接数，连接池中允许保持空闲状态的最大连接数量，超过的空闲连接将被释放。设置为非正数为不限制
+            minIdle：默认值为0，最小空闲连接数，连接池中允许保持空闲状态的最小连接数量，低于这个数量将创建新的连接。如设置为0则不创建
+            maxWait：默认值为无限，最大等待时间，当没有可用连接时，连接池等待连接被归还的最大时间（单位为毫秒），超过时间则抛出异常。如设置为-1，则表示无限等待
+            -->
+    <!--  连接健康情况维护和检测：
+            validationQuery：无默认值，SQL查询语句，在将连接返回给调用者之前用此SQL验证从连接池取出的连接是否可用。如果指定，则查询必须是一个SQL SELECT，并且必须返回至少一行记录。在mysql中可以设置为select 1而Oracle中可以设置为select 1 from dual
+            testOnBorrow：默认值为true，指明是否在从连接池中取出连接前进行检验，如果检验失败则从连接池中去除该连接并尝试取出另一个新的连接
+            testOnReturn：默认值为false，指明是否在归还到连接池中进行检验
+            testWhileIdle：默认值为false，指明连接是否被空闲连接回收器（如果有）进行检验，如果检测失败，则连接将被从连接池中去除。
+            timeBetweenEvictionRunsMillis：默认值为-1，空闲连接回收器线程运行的周期，以毫秒为单位，如果设置为非正数，则不运行空闲连接回收器线程。
+            numTestsPerEvictionRun：默认值为3，在每次空闲连接回收器线程运行时检查的连接数量
+            minEvictableIdleTimeMillis：默认值为1000*60*30，连接在可被空闲连接回收器会收钱已经在连接池的空闲时间，以毫秒为单位
+            -->
+    <!--  缓存语句：
+            poolPreparedStatements：默认值为false，开启连接池prepare statement池功能，当设置为true时，所有的CallableStatement和PrepareStatement都会被缓存起来
+            maxOpenPreparedStatements：默认值为无限制，PreparedStatement池能够同时分配的打开的statements的最大数量。如果设置为0，则表示不限制-->
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+          destroy-method="close"
+          p:driverClassName="com.mysql.jdbc.Driver"
+          p:url="jdbc:mysql://localhost:3306/sampledb"
+          p:username="root"
+          p:password="1234"/>
+
+</beans>

@@ -16,6 +16,7 @@
         <module>aop-base-example</module>
         <module>aop-aspectj-schema-example</module>
         <module>spring-spel-example</module>
+        <module>spring-dao-example</module>
     </modules>
 
 
