@@ -12,14 +12,12 @@
     <artifactId>spring-dao-example</artifactId>
 
     <properties>
-        <file.encoding>UTF-8</file.encoding>
-        <spring.version>4.2.2.RELEASE</spring.version>
-        <slf4j.version>1.7.5</slf4j.version>
         <mysql.version>5.1.29</mysql.version>
         <servlet.version>3.0-alpha-1</servlet.version>
         <commons-dbcp.version>1.4</commons-dbcp.version>
+        <spring.version>4.2.2.RELEASE</spring.version>
         <aspectjweaver.version>1.6.8</aspectjweaver.version>
-        <hibernate.version>4.2.0.Final</hibernate.version>
+        <slf4j.version>1.7.5</slf4j.version>
     </properties>
 
     <dependencies>
@@ -34,14 +32,19 @@
             <version>${commons-dbcp.version}</version>
         </dependency>
         <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>${mysql.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
             <version>${slf4j.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
-            <version>${slf4j.version}</version>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>${aspectjweaver.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
@@ -59,15 +62,16 @@
             <version>${spring.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-core</artifactId>
-            <version>${hibernate.version}</version>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>${spring.version}</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>servlet-api</artifactId>
-            <version>${servlet.version}</version>
-            <scope>provided</scope>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>6.8.7</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
