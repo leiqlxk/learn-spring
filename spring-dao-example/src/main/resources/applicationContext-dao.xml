@@ -9,8 +9,10 @@
         http://www.springframework.org/schema/context 
         http://www.springframework.org/schema/context/spring-context-4.0.xsd">
 
+    <!--  扫描包  -->
     <context:component-scan base-package="org.lql"/>
 
+    <!--  引入properties文件并使用context属性占位符获取属性  -->
     <context:property-placeholder location="classpath:jdbc.properties"/>
 
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
@@ -18,4 +20,12 @@
           p:url="${jdbc.url}"
           p:username="${jdbc.username}"
           p:password="${jdbc.password}"/>
+
+    <!--  声明事务管理器  -->
+    <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
+          p:dataSource-ref="dataSource"/>
+
+    <!--<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate"
+          p:dataSource-ref="dataSource"/>-->
+
 </beans>

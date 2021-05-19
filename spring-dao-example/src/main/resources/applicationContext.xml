@@ -2,12 +2,68 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:p="http://www.springframework.org/schema/p"
-       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
 
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
-        http://www.springframework.org/schema/context
-        http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
 
+    <!--  引入dao和Datasource的配置文件  -->
     <import resource="classpath:applicationContext-dao.xml"/>
+
+
+    <!--  基于注解的事务配置：使用@Transactional对需要事务增强的Bean接口、实现类或方法进行标注，在容器中配置基于注解的事务增强驱动，即可开启基于注解的声明式事务  -->
+    <!--  对标注@Transactional注解的Bean进行加工处理，以织入事务管理切面，其会自动使用名为transactionManager的事务管理器，所以如果事务管理器的id命名为此时，可以省略transaction-manager  -->
+    <tx:annotation-driven transaction-manager="txManager"/>
+
+
+
+    <!--  使用基于XML的事务配置  -->
+    <!--  使用强大的切点表达式语言轻松定义目标方法  -->
+    <!--<aop:config>
+        &lt;!&ndash;  通过aop定义事务增强切面  &ndash;&gt;
+        <aop:pointcut id="serviceMethod" expression="execution(* org.lql.service.*Forum.*(..))"/>
+        &lt;!&ndash;  引用事务增强   &ndash;&gt;
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="serviceMethod"/>
+    </aop:config>-->
+
+    <!--  事务增强  -->
+   <!-- <tx:advice id="txAdvice" transaction-manager="txManager">
+        &lt;!&ndash;  事务属性定义  &ndash;&gt;
+        <tx:attributes>
+            <tx:method name="get**" read-only="true"/>
+            <tx:method name="add*" rollback-for="Exception"/>
+            <tx:method name="update*"/>
+        </tx:attributes>
+    </tx:advice>-->
+
+
+
+
+
+    <!--  使用事务代理工厂类配置事务  -->
+    <!--  需要实施事务增强的目标业务bean  -->
+  <!--  <bean id="bbtForumTarget" class="org.lql.service.BbtForum"
+          p:forumDao-ref="forumDao"
+          p:topicDao-ref="topicDao"
+          p:postDao-ref="postDao"/>-->
+
+    <!--  使用事务代理工厂类为目标业务Bean提供事务增强  -->
+    <!--<bean id="bbtForum" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean"
+          p:transactionManager-ref="txManager"
+          p:target-ref="bbtForumTarget">
+        &lt;!&ndash;   事务属性配置     &ndash;&gt;
+        <property name="transactionAttributes">
+            <props>
+                <prop key="get*">PROPAGATION_REQUIRED,readOnly</prop>
+                <prop key="*">PROPAGATION_REQUIRED</prop>
+            </props>
+        </property>
+    </bean>-->
+
+
 </beans>

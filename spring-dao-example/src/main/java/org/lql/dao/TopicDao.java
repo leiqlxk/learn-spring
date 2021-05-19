@@ -1,6 +1,7 @@
 package org.lql.dao;
 
 import org.lql.domain.Topic;
+import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
 
@@ -13,6 +14,7 @@ import java.sql.Connection;
  * @version: 1.0 <br>
  * @since: 2021/5/18 15:20 <br>
  */
+@Repository
 public class TopicDao {
     public void addTopic(Topic topic) {
     }

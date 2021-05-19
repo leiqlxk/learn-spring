@@ -1,6 +1,7 @@
 package org.lql.dao;
 
 import org.lql.domain.Post;
+import org.springframework.stereotype.Repository;
 
 /**
  * Title: PostDao <br>
@@ -11,6 +12,7 @@ import org.lql.domain.Post;
  * @version: 1.0 <br>
  * @since: 2021/5/18 17:12 <br>
  */
+@Repository
 public class PostDao {
     public void addPost(Post post) {
     }
