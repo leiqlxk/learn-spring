@@ -18,6 +18,7 @@
         <module>spring-spel-example</module>
         <module>spring-dao-example</module>
         <module>spring-transaction-action-example</module>
+        <module>spring-jdbc-example</module>
     </modules>
 
 
