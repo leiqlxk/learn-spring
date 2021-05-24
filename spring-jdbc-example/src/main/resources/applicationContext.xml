@@ -23,12 +23,34 @@
           p:username="${jdbc.username}"
           p:password="${jdbc.password}"/>
 
+    <!--  定义dbcp数据源的jdbc本地对象抽取器 -->
+    <bean id="nativeJdbcExtractor" lazy-init="true" class="org.springframework.jdbc.support.nativejdbc.CommonsDbcpNativeJdbcExtractor"/>
+
     <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate"
-          p:dataSource-ref="dataSource"/>
+          p:dataSource-ref="dataSource" p:nativeJdbcExtractor-ref="nativeJdbcExtractor"/>
+
+
+    <bean id="namedParamJdbcTemplate" class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">
+        <constructor-arg ref="dataSource"/>
+    </bean>
+
+    <!--    -->
+    <bean id="lobHandler" class="org.springframework.jdbc.support.lob.DefaultLobHandler" lazy-init="true"/>
 
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
           p:dataSource-ref="dataSource"/>
 
     <tx:annotation-driven/>
 
+    <!--  基于数据库序列的自增器  -->
+    <!--<bean id="dataFieldMaxValueIncrementer" class="org.springframework.jdbc.support.incrementer.MySQLMaxValueIncrementer"
+          p:dataSource-ref="dataSource"
+          p:incrementerName="seq_post_id"/>-->
+
+    <!--  基于数据库表的自增器  -->
+    <bean id="dataFieldMaxValueIncrementer" class="org.springframework.jdbc.support.incrementer.MySQLMaxValueIncrementer"
+          p:dataSource-ref="dataSource"
+          p:incrementerName="t_post_id"
+          p:columnName="sequence_id"
+          p:cacheSize="10"/>
 </beans>

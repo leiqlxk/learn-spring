@@ -3,6 +3,10 @@ package org.lql.dao;
 import org.lql.domain.Forum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.*;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
@@ -28,6 +32,9 @@ public class ForumDao {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
+
+    @Autowired
+    private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     public void initDb() {
         jdbcTemplate.execute(ForumDao.INIT_SQL);
@@ -168,5 +175,16 @@ public class ForumDao {
 
     public int getForumNum() {
         return jdbcTemplate.queryForObject(ForumDao.GET_FORUM_NUM, Integer.class);
+    }
+
+    public void addForumByNamedParms(final Forum forum) {
+        // 定义参数源
+        final String sql = "insert into t_forum(forum_name, forum_desc) value(:forumName, :forumDesc)";
+
+        // 定义参数名
+//        MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource().addValue("forumName", forum.getForumName()).addValue("forumDesc", forum.getForumDesc());
+        SqlParameterSource sqlParameterSource = new BeanPropertySqlParameterSource(forum);
+
+        namedParameterJdbcTemplate.update(sql, sqlParameterSource);
     }
 }
