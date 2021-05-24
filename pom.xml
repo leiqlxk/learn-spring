@@ -19,6 +19,7 @@
         <module>spring-dao-example</module>
         <module>spring-transaction-action-example</module>
         <module>spring-jdbc-example</module>
+        <module>spring-orm-example</module>
     </modules>
 
 
