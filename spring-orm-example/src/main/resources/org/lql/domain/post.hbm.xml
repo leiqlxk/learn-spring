@@ -8,10 +8,10 @@
         </id>
         <property name="userId" column="user_id"/>
         <!--  clob映射为String  -->
-        <property name="postText" column="post_text" type="org.springframework.orm.hibernate4.support.ClobStringType"/>
+        <property name="postText" column="post_text" type="org.springframework.orm.hibernate3.support.ClobStringType"/>
         <!--  blob映射为byte[]类型  -->
         <property name="postAttach" column="post_attach"
-                  type="org.springframework.orm.hibernate4.support.BlobByteArrayType"/>
+                  type="org.springframework.orm.hibernate3.support.BlobByteArrayType"/>
         <property name="postTime" column="post_time" type="date" />
         <many-to-one name="topic" column="topic_id"
                      class="org.lql.domain.Topic" />

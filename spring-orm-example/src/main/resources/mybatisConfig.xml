@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!--  mybatis框架运行行为的属性信息  -->
+    <settings>
+        <setting name="lazyLoadingEnabled" value="false"/>
+    </settings>
+    <!--  定义全限定名的别名，在映射文件中可以通过别名替代具体类名  -->
+    <typeAliases>
+        <typeAlias type="org.lql.domain.Forum" alias="Forum"/>
+        <typeAlias type="org.lql.domain.Post" alias="Post"/>
+        <typeAlias type="org.lql.domain.Topic" alias="Topic"/>
+    </typeAliases>
+    <!--  将mybatis的所有映射文件组装起来，此映射可以直接在sqlSessionFactory中配置扫描  -->
+   <!-- <mappers>
+        <mapper resource="org/lql/domaim/mybatis/Forum.xml"/>
+        <mapper resource="org/lql/domaim/mybatis/Post.xml"/>
+        <mapper resource="org/lql/domaim/mybatis/Topic.xml"/>
+    </mappers>-->
+</configuration>
