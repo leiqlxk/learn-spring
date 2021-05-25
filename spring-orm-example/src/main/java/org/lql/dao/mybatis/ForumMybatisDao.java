@@ -1,26 +1,29 @@
 package org.lql.dao.mybatis;
 
 import org.lql.domain.Forum;
-import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
+
+import java.io.PrintWriter;
+import java.util.List;
 
 /**
  * Title: ForumMybatisDao <br>
- * ProjectName: learn-spring <br>
+ * ProjectName: spring-boot-example <br>
  * description: TODO <br>
  *
  * @author: leiql <br>
  * @version: 1.0 <br>
- * @since: 2021/5/25 17:07 <br>
+ * @since: 2021/5/25 21:32 <br>
  */
-@Repository
-public class ForumMybatisDao {
+public interface ForumMybatisDao {
 
-    @Autowired
-    private SqlSessionTemplate sqlSessionTemplate;
+    void addForum(Forum forum);
 
-    public Forum getForum(int forumId) {
-        return (Forum) sqlSessionTemplate.selectOne("org.lql.dao.mybatis.ForumMybatisDao.getForum", forumId);
-    }
+    void updateForum(Forum forum);
+
+    Forum getForum(int forumId);
+
+    long getForumNum();
+
+    List<Forum> findForumByName(String forumName);
 }

@@ -1,5 +1,6 @@
-package org.lql.dao.mybatis;
+package org.lql.service.mybatis;
 
+import org.lql.domain.Forum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
@@ -8,24 +9,26 @@ import org.springframework.transaction.annotation.Transactional;
 import org.testng.annotations.Test;
 
 /**
- * Title: TestForumDao <br>
- * ProjectName: learn-spring <br>
+ * Title: TestForumService <br>
+ * ProjectName: spring-boot-example <br>
  * description: TODO <br>
  *
  * @author: leiql <br>
  * @version: 1.0 <br>
- * @since: 2021/5/25 17:10 <br>
+ * @since: 2021/5/25 21:44 <br>
  */
 @ContextConfiguration(locations = {"classpath:applicationContext-mybatis.xml"})
 @Rollback
 @Transactional
-public class TestForumDao extends AbstractTransactionalTestNGSpringContextTests {
-
+public class TestForumService extends AbstractTransactionalTestNGSpringContextTests {
     @Autowired
-    private ForumMybatisTemplateDao forumMybatisDao;
+    private BbtForumService bbtForumService;
 
     @Test
-    public void getForum() {
-        System.out.println(forumMybatisDao.getForum(27296));
+    public void addForum() {
+        Forum forum = new Forum();
+        forum.setForumName("test");
+        forum.setForumDesc("test1");
+        bbtForumService.addForum(forum);
     }
 }

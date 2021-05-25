@@ -12,9 +12,9 @@
         http://www.springframework.org/schema/tx
         http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
 
-    <context:component-scan base-package="org.lql.dao.mybatis"/>
-    <context:component-scan base-package="org.lql.service.mybatis"/>
-<!--    <context:component-scan base-package="org.lql" resource-pattern="**/mybatis/*.class"/>-->
+<!--    <context:component-scan base-package="org.lql.dao.mybatis"/>-->
+<!--    <context:component-scan base-package="org.lql.service.mybatis"/>-->
+    <context:component-scan base-package="org.lql" resource-pattern="**/mybatis/*.class"/>
     <context:property-placeholder location="classpath:jdbc.properties"/>
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
           destroy-method="close"
@@ -28,12 +28,12 @@
           p:configLocation="classpath:mybatisConfig.xml"
           p:mapperLocations="classpath:org/lql/domain/mybatis/*.xml"/>
 
-    <bean class="org.mybatis.spring.SqlSessionTemplate">
+    <bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
         <constructor-arg ref="sqlSessionFactory"/>
     </bean>
 
+    <!--  使用MapperScannerConfigurer将映射接口直接转换为spring容器中的bean  -->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer"
-          p:sqlSessionFactory-ref="sqlSessionFactory"
           p:basePackage="org.lql.dao.mybatis"/>
 
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
