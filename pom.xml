@@ -21,6 +21,7 @@
         <module>spring-jdbc-example</module>
         <module>spring-orm-example</module>
         <module>spring-cache-example</module>
+        <module>spring-schedule-example</module>
     </modules>
 
 
