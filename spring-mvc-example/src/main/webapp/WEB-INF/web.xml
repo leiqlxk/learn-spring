@@ -16,7 +16,7 @@
         </listener-class>
     </listener>
 
-    <!--  声明DispatcherServlet  -->
+    <!--  声明DispatcherServlet，默认自动加载/WEB-INF/dispatcher-servlet.xml（servlet-name-servlet.xml）  -->
     <servlet>
         <servlet-name>dispatcherServlet</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
