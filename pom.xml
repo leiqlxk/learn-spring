@@ -22,6 +22,7 @@
         <module>spring-orm-example</module>
         <module>spring-cache-example</module>
         <module>spring-schedule-example</module>
+        <module>spring-mvc-example</module>
     </modules>
 
 
