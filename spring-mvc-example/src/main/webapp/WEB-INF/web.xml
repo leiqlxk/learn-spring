@@ -16,15 +16,34 @@
         </listener-class>
     </listener>
 
-    <!--  声明DispatcherServlet，默认自动加载/WEB-INF/dispatcher-servlet.xml（servlet-name-servlet.xml）  -->
+    <!--  声明DispatcherServlet，默认自动加载/WEB-INF/dispatcher-servlet.xml（servlet-name-servlet.xml）,dispatcherServlet可以配置多个  -->
     <servlet>
-        <servlet-name>dispatcherServlet</servlet-name>
+        <servlet-name>dispatcher</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <init-param>
+            <!--  修改对应的命名空间，默认的是<servlet-name>-servlet.xml    -->
+           <!-- <param-name>namespace</param-name>
+            <param-value></param-value>-->
+
+            <!--  如果dispatcherServlet上下文对应的Spring配置文件有多个，则可使用此属性指定    -->
+            <!--<param-name>contextConfigLocation</param-name>
+            <param-value>classpath:/WEB-INF/dispatcher-servlet.xml, classpath:/WEB-INF/server1-servlet.xml</param-value>-->
+
+            <!--  布尔类型属性，默认值为true，根据该属性决定是否将WebApplicationContext发布到ServletContext的属性列表中，DispatcherServlet#getServletContextAttributeName()   -->
+            <param-name>publishContext</param-name>
+            <param-value>true</param-value>
+
+            <!--  布尔类型属性，默认值为true，决定是否在DispatcherServlet处理完一个请求后向容器发送一个ServletRequestHandledEvent事件   -->
+           <!-- <param-name>publishEvents</param-name>
+            <param-value>true</param-value>-->
+        </init-param>
     </servlet>
 
     <!--  名为DispatcherServlet匹配的URL模式  -->
     <servlet-mapping>
-        <servlet-name>dispatcherServlet</servlet-name>
+        <servlet-name>dispatcher</servlet-name>
         <url-pattern>*.html</url-pattern>
     </servlet-mapping>
+
+
 </web-app>
