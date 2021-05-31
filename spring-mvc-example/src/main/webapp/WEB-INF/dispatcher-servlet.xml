@@ -71,7 +71,7 @@
     </bean>
 
     <!--国际化资源  -->
-    <bean id="messageSource"
+   <!-- <bean id="messageSource"
           class="org.springframework.context.support.ResourceBundleMessageSource">
         <property name="basenames">
             <list>
@@ -79,7 +79,7 @@
                 <value>i18n/content</value>
             </list>
         </property>
-    </bean>
+    </bean>-->
 
     <!-- FreeMarker基础设施及视图解析器配置 -->
     <bean class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer"
@@ -95,22 +95,22 @@
             p:order="5" p:suffix=".ftl" p:contentType="text/html; charset=utf-8"/>
 
     <!-- Excel及PDF视图解析器配置 -->
-    <bean class="org.springframework.web.servlet.view.BeanNameViewResolver"
+    <!--<bean class="org.springframework.web.servlet.view.BeanNameViewResolver"
           p:order="10"/>
     <bean id="userListExcel" class="org.lql.controller.UserListExcelView"/>
-    <bean id="userListPdf" class="org.lql.controller.UserListPdfView"/>
+    <bean id="userListPdf" class="org.lql.controller.UserListPdfView"/>-->
 
     <!-- XMl及JSON视图解析器配置 -->
-    <bean id="userListJson"
+    <!--<bean id="userListJson"
           class="org.springframework.web.servlet.view.json.MappingJackson2JsonView"
-          p:modelKeys="userList"/>
+          p:modelKeys="userList"/>-->
 
-    <bean id="userListXml"
+    <!--<bean id="userListXml"
           class="org.springframework.web.servlet.view.xml.MarshallingView"
-          p:modelKey="userList" p:marshaller-ref="xmlMarshaller"/>
+          p:modelKey="userList" p:marshaller-ref="xmlMarshaller"/>-->
 
     <!-- XML文件或国际化资源文件定义视图 -->
-    <bean class="org.springframework.web.servlet.view.XmlViewResolver"
+    <!-- <bean class="org.springframework.web.servlet.view.XmlViewResolver"
           p:order="20" p:location="/WEB-INF/views/smart-views.xml"/>
 
     <bean class="org.springframework.web.servlet.view.ResourceBundleViewResolver"
@@ -130,9 +130,9 @@
                 json=application/json
             </value>
         </property>
-    </bean>
+    </bean>-->
     <!-- 协商多种视图解析器 -->
-    <bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver" p:order="0">
+    <!--<bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver" p:order="0">
         <property name="contentNegotiationManager" ref="contentNegotiationManager"/>
         <property name="defaultViews">
             <list>
@@ -142,6 +142,6 @@
                       p:modelKey="userList" p:marshaller-ref="xmlMarshaller"/>
             </list>
         </property>
-    </bean>
+    </bean>-->
 
 </beans>
