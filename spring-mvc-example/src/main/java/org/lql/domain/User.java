@@ -27,14 +27,22 @@ public class User implements Serializable {
 
     private String userId;
 
+    @Pattern(regexp="w{4,30}")
     private String userName;
 
+    @Pattern(regexp="S{6,30}")
     private String password;
 
+    @Length(min=2,max=100)
     private String realName;
 
+    @Past
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date birthday;
 
+    @DecimalMin(value="1000.00")
+    @DecimalMax(value="100000.00")
+    @NumberFormat(pattern="#,###.##")
     private long salary;
 
     private Dept dept;
